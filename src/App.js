@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+// import './App.css';
 import MaterialTable from '@material-table/core'
 
 
 function App() {
-  const url = "https://michegwwe.herokuapp.com/students"
+  const url = "http://localhost:3000/employees"
   const [data, setData] = useState([])
   useEffect(() => {
-    getStudents()
+    getEmployees()
   }, [])
 
-  const getStudents = () => {
+  const getEmployees = () => {
     fetch(url).then(resp => resp.json())
       .then(resp => setData(resp))
   }
@@ -21,24 +21,24 @@ function App() {
       validate: rowData => rowData.email === undefined || rowData.email === "" ? "Required" : true
     },
     {
-      title: "mobile-no", field: "hired-date",
-      validate: rowData => rowData.year === undefined || rowData.year === "" ? "Required" : true
+      title: "Mobile-no", field: "mobile-no ",
+      validate: rowData => rowData.mobile_no === undefined || rowData.mobile_no === "" ? "Required" : true
     },
     {
-      title: "Salary", field: 'fee',
-      validate: rowData => rowData.fee === undefined || rowData.fee === "" ? "Required" : true
+      title: "Id_do", field: 'id_no',
+      validate: rowData => rowData.id_no === undefined || rowData.id_no === "" ? "Required" : true
     },
     {
-      title: "Department", field: 'fee',
-      validate: rowData => rowData.fee === undefined || rowData.fee === "" ? "Required" : true
+      title: "Hired_date", field: 'hired_date',
+      validate: rowData => rowData.hired_date === undefined || rowData.hired_date === "" ? "Required" : true
     },
     {
-      title: "image-url", field: 'fee',
-      validate: rowData => rowData.fee === undefined || rowData.fee === "" ? "Required" : true
+      title: "Department", field: 'department',
+      validate: rowData => rowData.department === undefined || rowData.department === "" ? "Required" : true
     },
     {
-      title: "Hired-date", field: 'fee',
-      validate: rowData => rowData.fee === undefined || rowData.fee === "" ? "Required" : true
+      title: "Salary", field: 'salary',
+      validate: rowData => rowData.salary === undefined || rowData.salary === "" ? "Required" : true
     }
   ]
   return (
@@ -60,12 +60,12 @@ function App() {
               body: JSON.stringify(newData)
             }).then(resp => resp.json())
               .then(resp => {
-                getStudents()
+                getEmployees()
                 resolve()
               })
           }),
           onRowUpdate: (newData, oldData) => new Promise((resolve, reject) => {
-            fetch(url + "/" + oldData.id, {
+            fetch(url + "/employees" + oldData.id, {
               method: "PUT",
               headers: {
                 'Content-type': "application/json"
@@ -73,7 +73,7 @@ function App() {
               body: JSON.stringify(newData)
             }).then(resp => resp.json())
               .then(resp => {
-                getStudents()
+                getEmployees()
                 resolve()
               })
           }),
@@ -86,7 +86,7 @@ function App() {
 
             }).then(resp => resp.json())
               .then(resp => {
-                getStudents()
+                getEmployees()
                 resolve()
               })
           })
